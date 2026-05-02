@@ -15,26 +15,63 @@ Raw text is never stored - only a 512-dimension embedding and a `{file, byteStar
 
 ## Setup
 
-**In your target repo:**
+**Prerequisites:** A [Voyage AI API key](https://voyageai.com) (free tier covers millions of tokens).
 
 ```bash
-# 1. Install engram as a dependency or clone it alongside your repo
-npm install --save-dev /path/to/engram   # local, or publish to npm later
+# 1. Clone Engram alongside your repo
+git clone https://github.com/Gerendo/engram ~/engram
 
-# 2. Run the setup wizard
-npx tsx /path/to/engram/src/init.ts
+# 2. Install Engram's dependencies
+cd ~/engram && npm install
 
-# 3. Add your Voyage API key
-echo "VOYAGE_API_KEY=your_key_here" >> .env.local
-
-# 4. Build the index
-npm run engram:index
-
-# 5. Restart Claude Code
-# The search_<yourproject> MCP tool is now available
+# 3. In your target repo, run the setup wizard
+cd /your/project
+npx tsx ~/engram/src/init.ts
 ```
 
-Get a Voyage API key at [voyageai.com](https://voyageai.com). The free tier covers millions of tokens.
+The wizard will:
+- Create `engram.config.json` in your repo
+- Register the MCP server in `.claude/settings.json`
+- Add `data/engram.db` to `.gitignore`
+
+```bash
+# 4. Add your Voyage API key to .env.local
+echo "VOYAGE_API_KEY=your_key_here" >> .env.local
+
+# 5. Build the index
+VOYAGE_API_KEY=your_key_here npx tsx ~/engram/src/index.ts
+
+# 6. Reload Claude Code - the search_<yourproject> tool is now live
+```
+
+## Claude Code - VS Code extension
+
+The setup above works for both the **Claude Code CLI** and the **Claude Code VS Code extension** - they both read from `.claude/settings.json` in your project root.
+
+After running `engram:init`, your `.claude/settings.json` will contain:
+
+```json
+{
+  "enableAllProjectMcpServers": true,
+  "mcpServers": {
+    "myproject": {
+      "command": "bash",
+      "args": ["-c", "set -a && . /your/project/.env.local && set +a && npx tsx ~/engram/src/mcp.ts"],
+      "cwd": "/your/project"
+    }
+  }
+}
+```
+
+**To activate in VS Code:**
+1. Open your project folder in VS Code
+2. Open the Claude Code panel (sidebar or `Cmd+Shift+P` → "Claude Code")
+3. The `search_<yourproject>` tool appears automatically - no extra steps
+
+**If the tool doesn't appear**, check:
+- `enableAllProjectMcpServers` is `true` in `.claude/settings.json`
+- The `VOYAGE_API_KEY` is present in `.env.local`
+- The index has been built (`data/engram.db` exists)
 
 ## Commands
 

@@ -61,6 +61,7 @@ mcpServers[name] = {
   cwd: REPO_ROOT,
 };
 settings.mcpServers = mcpServers;
+settings.enableAllProjectMcpServers = true;
 
 fs.writeFileSync(settingsPath, JSON.stringify(settings, null, 2) + "\n");
 console.log(`Registered MCP server "${name}" in .claude/settings.json`);
