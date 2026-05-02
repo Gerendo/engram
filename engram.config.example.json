@@ -1,0 +1,17 @@
+{
+  "name": "myproject",
+  "include": [
+    "*.md",
+    "docs/**/*.md",
+    "src/**/*.ts",
+    "src/**/*.tsx"
+  ],
+  "exclude": [
+    "**/*.test.ts",
+    "**/*.spec.ts",
+    "**/*.d.ts"
+  ],
+  "db": "data/engram.db",
+  "topK": 5,
+  "maxPerFile": 2
+}

@@ -1,0 +1,24 @@
+{
+  "name": "engram",
+  "version": "0.1.0",
+  "description": "Semantic RAG index for any repo, wired into Claude Code as an MCP tool",
+  "type": "module",
+  "scripts": {
+    "engram:init": "tsx src/init.ts",
+    "engram:index": "tsx src/index.ts",
+    "engram:ask": "tsx src/ask.ts",
+    "engram:mcp": "tsx src/mcp.ts"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "better-sqlite3": "^11.10.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/node": "^20",
+    "tsx": "^4.19.3",
+    "typescript": "^5"
+  }
+}
